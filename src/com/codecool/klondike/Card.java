@@ -18,6 +18,22 @@ public class Card extends ImageView {
     private Pile containingPile;
     private DropShadow dropShadow;
 
+    private enum SuitNames {
+        hearts(1),
+        diamonds(2),
+        spades(3),
+        clubs(4);
+
+        private final int num;
+
+        SuitNames(int id){
+            num = id;
+        }
+
+        public int getNum(){
+            return num;
+        }
+    }
     static Image cardBackImage;
     private static final Map<String, Image> cardFaceImages = new HashMap<>();
     public static final int WIDTH = 150;
@@ -99,24 +115,11 @@ public class Card extends ImageView {
     public static void loadCardImages() {
         cardBackImage = new Image("card_images/card_back.png");
         String suitName = "";
-        for (int suit = 1; suit < 5; suit++) {
-            switch (suit) {
-                case 1:
-                    suitName = "hearts";
-                    break;
-                case 2:
-                    suitName = "diamonds";
-                    break;
-                case 3:
-                    suitName = "spades";
-                    break;
-                case 4:
-                    suitName = "clubs";
-                    break;
-            }
+        for (SuitNames sName: SuitNames.values()) {
+            suitName = sName.toString();
             for (int rank = 1; rank < 14; rank++) {
                 String cardName = suitName + rank;
-                String cardId = "S" + suit + "R" + rank;
+                String cardId = "S" + sName.getNum() + "R" + rank;
                 String imageFileName = "card_images/" + cardName + ".png";
                 cardFaceImages.put(cardId, new Image(imageFileName));
             }
